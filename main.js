@@ -25,27 +25,55 @@ function playRound(playerSelection, computerSelection) {
   function game(){
     let playerScore = 0;
     let computerScore = 0;
-    for(let i = 0; i < 5; i++){
-      const playerSelection = prompt("Your turn").toLowerCase();
-      const computerSelection = computerPlay();
-      let verdict = playRound(playerSelection,computerSelection);
-      if (verdict == "Dead Heat"){
-        console.log("None Scored");
-      }else if(verdict == "Player Won!"){
-        playerScore++;
-      }else{
-        computerScore++;
-      }   
-    }
-    console.log(`Player score: ${playerScore}`);
-    console.log(`Computer score: ${computerScore}`);
-    if (playerScore == computerScore){
+    const buttons = document.querySelectorAll('button');
+    const announce = document.querySelector('#announcement');
+    const playerAnnounce = document.querySelector('#playerScore');
+    const ComputerAnnounce = document.querySelector('#computerScore');
+    const winner = document.querySelector('#winner');
+
+    buttons.forEach((button) =>{
+      button.addEventListener('click', () =>{
+        const playerSelection = button.id
+        const computerSelection = computerPlay();
+        
+        let verdict = playRound(playerSelection,computerSelection);
+        if (verdict == "Dead Heat"){
+          announce.innerHTML = "None Scored";
+        }else if(verdict == "Player Won!"){
+          announce.innerHTML = "Player Score";
+          playerScore++;
+        }else{
+          announce.innerHTML = "Computer Score";
+          computerScore++;
+        } 
+
+        playerAnnounce.innerHTML = `Player score: ${playerScore}`;
+        ComputerAnnounce.innerHTML = `Computer score: ${computerScore}`;
+        
+        if (playerScore == 5){
+          playerScore = 0;
+          computerScore = 0;
+          playerAnnounce.innerHTML = `Player score: ${playerScore}`;
+          ComputerAnnounce.innerHTML = `Computer score: ${computerScore}`;
+          winner.innerHTML = `You Win!!! =D`;
+        }else if(computerScore == 5){
+          playerScore = 0;
+          computerScore = 0;
+          playerAnnounce.innerHTML = `Player score: ${playerScore}`;
+          ComputerAnnounce.innerHTML = `Computer score: ${computerScore}`;
+          winner.innerHTML = `You Lose!!! =(`;
+        }
+
+      });
+    }); 
+
+    /*if (playerScore == computerScore){
       return "Both are losers!!!";
     }else if(playerScore > computerScore){
       return "You Win!!!! Congrats!!! =D";
     }else{
       return "You Lose!!!! Try Again!!!! =S";
-    }
+    }*/
   }
 
 
